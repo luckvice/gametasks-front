@@ -1,58 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-  <head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-
-
-
-    
-    
-    <title>3 Col Portfolio - Start Bootstrap Template</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="css/3-col-portfolio.css" rel="stylesheet">
-
-  </head>
-
-  <body>
-
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-      <div class="container">
-        <a class="navbar-brand" href="#">GameTasks API Front End</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Home
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Sobre a API</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Services</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-
+<?php include 'template/header.php'; ?>
     <!-- Page Content -->
     <div class="container">
 
@@ -60,6 +6,11 @@
       <h1 class="my-4">Lista Jogos
         <small>GetJson</small>
       </h1>
+      <div class="row">
+      <div class="col-lg-4">
+        <a id="salvar" class="btn btn-primary" href="novoJogo.php">Cadastrar novo</a>
+      </div>
+        </div>
 	        <div class="row" id="listGames">
 				<div class="col-lg-4 col-sm-6 portfolio-item">
 				<table class="table">
@@ -74,8 +25,6 @@
 					</tr>
 				  </thead>
 				  <tbody id="tableGames">
-
-
 				  </tbody>
 				</table>
 				</div>
@@ -180,33 +129,47 @@
     </div>
     <!-- /.container -->
 
-    <!-- Footer -->
-    <footer class="py-5 bg-dark">
-      <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2018</p>
-      </div>
-      <!-- /.container -->
-    </footer>
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script type="text/javascript">
-    $( "#target" ).click(function() {
-		alert( "Handler for .click() called." );
-	});
 
+	 <?php include 'template/footer.php'; ?>
+   <script type="text/javascript">
 //carrega na pagina
 $.getJSON( "http://localhost:8080/api/listaJogos", function( data ) {
   $.each( data, function( key, val ) {
-	$("#tableGames").append("<tr><th scope='row'>"+val.id+"</th><td><a href='verGame.php?id="+val.id+"'> "+val.nome+" </a></td> <td>"+val.desenvolvedora+"</td> <td>"+val.produtora+"</td><td>"+val.meta_critic_rank+"</td><td><button type='button' class='btn btn-warning btn-sm' id='"+val.id+"'>Editar</button></td><td> <button type='button' class='btn btn-danger btn-sm' id='"+val.id+"'>Remover</button> </td>");
+	$("#tableGames").append("<tr><th scope='row'>"+val.id+"</th><td><a href='verGame.php?id="+val.id+"'> "+val.nome+" </a></td> <td>"+val.desenvolvedora+"</td> <td>"+val.produtora+"</td><td>"+val.meta_critic_rank+"</td><td><button type='button' class='btn btn-warning btn-sm editar' id='"+val.id+"'>Editar</button></td><td> <button type='button' class='btn btn-danger btn-sm deletar' id='"+val.id+"'>Remover</button> </td>");
 	console.log(key, val);
   });
-  
-  
 
+   $(".editar").on('click', function(){
+    var id = $(this).attr('id');
+    window.location = "http://localhost/gametasks-front/verGame.php?id="+id;
+
+   });
+  
+  $(".deletar").on('click', function(){
+      alert("a");
+            // send ajax
+            var id = $(this).attr("id");
+            var stringvar = 'id='+ id ;
+            $.ajax({
+                url: 'http://localhost:8080/api/deletaJogo/'+id, // url where to submit the request
+                type : "DELETE", // type of action POST || GET
+                dataType : 'json', // data type
+                data : stringvar, // post data || get data
+                success : function(result) {
+                    // you can see the result from the console
+                    // tab of the developer tools
+					          alert(result);
+                    console.log(result);
+                    window.location = "http://localhost/gametasks-front/listaJogos.php";
+                },
+                error: function(xhr, resp, text) {
+                  alert(JSON.stringify(xhr));
+                  console.log(xhr, resp, text);
+                }
+          })
+    });
 });
-
     </script>
   </body>
 
