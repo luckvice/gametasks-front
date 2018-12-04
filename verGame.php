@@ -5,8 +5,6 @@
       <!-- Page Heading -->
       <h1 class="my-4">Ver Jogo
         <small>GetJson</small>
-     
-
       </h1>
 	        <div class="row" id="verGame">
 				<div class="col-lg-4 col-sm-6 portfolio-item">
@@ -36,8 +34,6 @@
 					<label for="sinopse">Sinopse do jogo</label>
 					<input type="" class="form-control" id="sinopse" placeholder="Sinopse do jogo" name="sinopse">
 				  </div>				  
-				  				  
-				  
 				  <div class="form-check">
 					<input type="checkbox" class="form-check-input" id="ativo">
 					<label class="form-check-label" for="ativo">Ativo</label>
@@ -51,15 +47,65 @@
     <!-- /.container -->
 
     <?php include 'template/footer.php'; ?>
-    
+		<script src="vendor/jquery-validation/jquery.validate.min.js"></script>
+
     <script type="text/javascript">
-	var baseUrl = (window.location).href; // You can also use document.URL
-	var id = baseUrl.substring(baseUrl.lastIndexOf('=') + 1);
+			var baseUrl = (window.location).href; //pega url
+			var id = baseUrl.substring(baseUrl.lastIndexOf('=') + 1);
 
+			$("#gameForm").validate({
 
+				rules : {
+							nome:{
+										required:true
+										// minlength:3
+							},
+							desenvolvedora:{
+										required:true
+							},
+							produtora:{
+										required:true
+							},
+							meta_critic_rank:{
+										required:true,
+										maxlength:3
+							},
+							image_url:{
+										required:true
+							},
+							sinopse:{
+										required:true
+							}         
+
+				},
+				messages:{
+							nome:{
+										required:"Insira o titulo do jogo"
+										// minlength:"O nome deve ter pelo menos 3 caracteres"
+							},
+							desenvolvedora:{
+										required:"É necessário inserir a desenvolvedora do jogo."
+							},
+							produtora:{
+										required:"É necessário inserir a produtora do jogo."
+							},
+							meta_critic_rank:{
+										required:"É necessário inserir a nota metacritic.",
+										maxlength:"A nota nao pode ultrapassar 3 digitos"
+							},
+							image_url:{
+										required:"É necessário inserir a url da imagem do jogo."
+							},
+							sinopse:{
+										required:"É necessário inserir a sinopse do jogo"
+							}                       
+				}
+		 });
 	   $("#salvar").on('click', function(){
-            // send ajax
-            $.ajax({
+
+			 	if($("#gameForm").valid()){  
+					             // send ajax
+							 $.ajax({
                 url: 'http://localhost:8080/api/atualizaJogo/'+id, // url where to submit the request
                 type : "PUT", // type of action POST || GET
                 dataType : 'json', // data type
@@ -75,20 +121,23 @@
                     console.log(xhr, resp, text);
                 }
             })
+
+				 }else{
+					consolog.log("Não valido!");
+				 }
         });
 
 
-$.getJSON( "http://localhost:8080/api/verJogo/"+id, function( data ) {
-console.log(data)
+				$.getJSON( "http://localhost:8080/api/verJogo/"+id, function( data ) {
+				console.log(data)//debug
+				$("#nome").val(data[0].nome);
+				$("#desenvolvedora").val(data[0].desenvolvedora);
+				$("#produtora").val(data[0].produtora);
+				$("#meta_critic_rank").val(data[0].meta_critic_rank);
+				$("#image_url").val(data[0].image_url);
+				$("#sinopse").val(data[0].sinopse);
 
-  	$("#nome").val(data[0].nome);
-  	$("#desenvolvedora").val(data[0].desenvolvedora);
-  	$("#produtora").val(data[0].produtora);
-	  $("#meta_critic_rank").val(data[0].meta_critic_rank);
-  	$("#image_url").val(data[0].image_url);
-  	$("#sinopse").val(data[0].sinopse);
-
-});
+			});
 
     </script>
   </body>

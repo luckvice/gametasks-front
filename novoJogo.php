@@ -10,7 +10,7 @@
 				<form id="gameForm" class='gameForm'>
 				  <div class="form-group">
 					<label for="titulo">Titulo</label>
-					<input required type="text" class="form-control" id="nome" value='testando' placeholder="Digite o titulo" name="nome">
+					<input required type="text" class="form-control" id="nome" placeholder="Digite o titulo" name="nome">
 					<small id="titulohelp" class="form-text text-muted">Teste</small>
 				  </div>
 				  <div class="form-group">
@@ -37,7 +37,7 @@
 					<input type="checkbox" class="form-check-input" id="ativo">
 					<label class="form-check-label" for="ativo">Ativo</label>
 				  </div>
-				  <button id="salvar" class="btn btn-primary">Cadastrar</button>
+				  <a id="salvar" class="btn btn-primary">Cadastrar</a>
 				</form>
 				</div>
 			</div>
@@ -45,9 +45,61 @@
     <!-- /.container -->
 
   <?php include 'template/footer.php'; ?>
-
+	  <script src="vendor/jquery-validation/jquery.validate.min.js"></script>
     <script type="text/javascript">
+
+		$("#gameForm").validate({
+
+       rules : {
+             nome:{
+                    required:true
+                   // minlength:3
+             },
+             desenvolvedora:{
+                    required:true
+             },
+             produtora:{
+                    required:true
+             },
+						 meta_critic_rank:{
+                    required:true,
+										maxlength:3
+             },
+						 image_url:{
+                    required:true
+             },
+						 sinopse:{
+                    required:true
+             }         
+
+       },
+       messages:{
+             nome:{
+                    required:"Insira o titulo do jogo"
+                   // minlength:"O nome deve ter pelo menos 3 caracteres"
+             },
+             desenvolvedora:{
+                    required:"É necessário inserir a desenvolvedora do jogo."
+             },
+             produtora:{
+                    required:"É necessário inserir a produtora do jogo."
+             },
+             meta_critic_rank:{
+                    required:"É necessário inserir a nota metacritic.",
+										maxlength:"A nota nao pode ultrapassar 3 digitos"
+             },
+             image_url:{
+                    required:"É necessário inserir a url da imagem do jogo."
+             },
+             sinopse:{
+                    required:"É necessário inserir a sinopse do jogo"
+             }                       
+       }
+});
+
+
 	   $("#salvar").on('click', function(){
+			if($("#gameForm").valid()){  
             // send ajax
             $.ajax({
                 url: 'http://localhost:8080/api/novoJogo', // url where to submit the request
@@ -64,8 +116,11 @@
                 error: function(xhr, resp, text) {
                     console.log(xhr, resp, text);
                 }
-            })
-        
+            });
+        } else {
+					console.log("Nao valido");
+        }
+
         });
 
     </script>

@@ -39,14 +39,21 @@
                 <span class="sr-only">(current)</span>
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Sobre a API</a>
-            </li>
+            <li class="nav-link dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Administrar <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-link"><a href="listaJogos.php">Lista Jogos</a></li>
+                            <li class="nav-link"><a href="listaPlataformas.php">Lista Plataformas</a></li>
+                            <li class="nav-link"><a href="listaGeneros.php">Lista Generos</a></li>
+                            <li class="divider"></li>
+                            <li class="nav-link"><a href="#">Trash</a></li>
+                        </ul>
+                    </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Services</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
+              <a class="nav-link" href="#">Sobre a API</a>
             </li>
           </ul>
         </div>

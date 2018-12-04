@@ -133,8 +133,14 @@
 
 	 <?php include 'template/footer.php'; ?>
    <script type="text/javascript">
+carregaPagina();
+setInterval(carregaPagina, 13000);
+
+function carregaPagina(){
+
 //carrega na pagina
 $.getJSON( "http://localhost:8080/api/listaJogos", function( data ) {
+  jQuery('#tableGames').html('');
   $.each( data, function( key, val ) {
 	$("#tableGames").append("<tr><th scope='row'>"+val.id+"</th><td><a href='verGame.php?id="+val.id+"'> "+val.nome+" </a></td> <td>"+val.desenvolvedora+"</td> <td>"+val.produtora+"</td><td>"+val.meta_critic_rank+"</td><td><button type='button' class='btn btn-warning btn-sm editar' id='"+val.id+"'>Editar</button></td><td> <button type='button' class='btn btn-danger btn-sm deletar' id='"+val.id+"'>Remover</button> </td>");
 	console.log(key, val);
@@ -145,9 +151,7 @@ $.getJSON( "http://localhost:8080/api/listaJogos", function( data ) {
     window.location = "http://localhost/gametasks-front/verGame.php?id="+id;
 
    });
-  
   $(".deletar").on('click', function(){
-      alert("a");
             // send ajax
             var id = $(this).attr("id");
             var stringvar = 'id='+ id ;
@@ -170,6 +174,9 @@ $.getJSON( "http://localhost:8080/api/listaJogos", function( data ) {
           })
     });
 });
+
+}
+
     </script>
   </body>
 
