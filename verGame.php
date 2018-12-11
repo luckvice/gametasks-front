@@ -106,13 +106,11 @@
 			 	if($("#gameForm").valid()){  
 					             // send ajax
 							 $.ajax({
-                url: 'http://localhost:8080/api/atualizaJogo/'+id, // url where to submit the request
-                type : "PUT", // type of action POST || GET
-                dataType : 'json', // data type
-                data : $("#gameForm").serialize(), // post data || get data
+                url: 'http://localhost:8080/api/atualizaJogo/'+id, 
+                type : "PUT", 
+                dataType : 'json', 
+                data : $("#gameForm").serialize(),
                 success : function(result) {
-                    // you can see the result from the console
-                    // tab of the developer tools
 					          alert(result);
                     console.log(result);
                     window.location = "http://localhost/gametasks-front/listaJogos.php";

@@ -51,13 +51,11 @@
 			 	if($("#generoForm").valid()){  
 					             // send ajax
 							 $.ajax({
-                url: 'http://localhost:8080/api/atualizaGenero/'+id, // url where to submit the request
-                type : "PUT", // type of action POST || GET
-                dataType : 'json', // data type
-                data : $("#generoForm").serialize(), // post data || get data
+                url: 'http://localhost:8080/api/atualizaGenero/'+id,
+                type : "PUT", 
+                dataType : 'json', 
+                data : $("#generoForm").serialize(), 
                 success : function(result) {
-                    // you can see the result from the console
-                    // tab of the developer tools
 					          alert(result);
                     console.log(result);
                     window.location = "http://localhost/gametasks-front/listaGeneros.php";

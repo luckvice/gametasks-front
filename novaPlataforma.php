@@ -45,13 +45,11 @@
 			if($("#plataformaForm").valid()){  
             // send ajax
             $.ajax({
-                url: 'http://localhost:8080/api/novaPlataforma', // url where to submit the request
-                type : "POST", // type of action POST || GET
-                dataType : 'json', // data type
-                data : $("#plataformaForm").serialize(), // post data || get data
+                url: 'http://localhost:8080/api/novaPlataforma', 
+                type : "POST", 
+                dataType : 'json', 
+                data : $("#plataformaForm").serialize(), 
                 success : function(result) {
-                    // you can see the result from the console
-                    // tab of the developer tools
 					          alert(result);
                     console.log(result);
                     window.location = "http://localhost/gametasks-front/listaPlataformas.php";

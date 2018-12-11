@@ -47,6 +47,7 @@ setInterval(carregaPagina, 13000);
 
 
 function carregaPagina(){
+
 var status = "";
 //carrega na pagina
 $.getJSON( "http://localhost:8080/api/listaGameTasksUser/"+id, function( data ) {
@@ -61,13 +62,15 @@ $.getJSON( "http://localhost:8080/api/listaGameTasksUser/"+id, function( data ) 
     status = "Jogando novamente";
   }
 
-	$("#tableGametask").append("<tr><th scope='row'>"+val.id_gt+"</th><td><a href='verGametask.php?id="+val.id+"'> "+val.nome+" </a></td> <td>"+val.pl_name+"</td> <td> "+status+"</td><td>"+val.current_progress_time+" </td> <td> "+val.priority+"</td> <td> <div class='progress'>  <div class='progress-bar w-"+val.percent_complete+"' role='progressbar' style='width: "+val.percent_complete+"%' aria-valuenow='"+val.percent_complete+"' aria-valuemin='0' aria-valuemax='"+val.percent_complete+"'></div></div></td> <td><button type='button' class='btn btn-warning btn-sm editar' id='"+val.id_gt+"'>Editar</button></td><td> <button type='button' class='btn btn-danger btn-sm deletar' id='"+val.id_gt+"'>Remover</button> </td>");
+	$("#tableGametask").append("<tr><th scope='row'>"+val.id_gt+"</th><td><a href='verGametask.php?id="+val.id_gt+"&id_usuario="+val.id_usuario+"'> "+val.nome+" </a></td> <td>"+val.pl_name+"</td> <td> "+status+"</td><td>"+val.current_progress_time+" </td> <td> "+val.priority+"</td> <td> <div class='progress'>  <div class='progress-bar w-"+val.percent_complete+"' role='progressbar' style='width: "+val.percent_complete+"%' aria-valuenow='"+val.percent_complete+"' aria-valuemin='0' aria-valuemax='"+val.percent_complete+"'></div></div></td> <td><button type='button' class='btn btn-warning btn-sm editar' id='"+val.id_gt+"'>Editar</button></td><td> <button type='button' class='btn btn-danger btn-sm deletar' id='"+val.id_gt+"'>Remover</button> </td>");
 	console.log(key, val);
   });
 
    $(".editar").on('click', function(){
     var id = $(this).attr('id');
-    window.location = "http://localhost/gametasks-front/verGametask.php?id="+id;
+    var url =  document.URL;
+    var id_usuario = url.substring(url.lastIndexOf('=') + 1);
+    window.location = "http://localhost/gametasks-front/verGametask.php?id="+id+"&id_usuario="+id_usuario;
 
    });
   $(".deletar").on('click', function(){
@@ -76,13 +79,11 @@ $.getJSON( "http://localhost:8080/api/listaGameTasksUser/"+id, function( data ) 
             var stringvar = 'id_task='+ id_task ;
            
             $.ajax({
-                url: 'http://localhost:8080/api/deletaGameTaskUser/'+id_task+'/'+id, // url where to submit the request
-                type : "DELETE", // type of action POST || GET
-                dataType : 'json', // data type
-                data : stringvar, // post data || get data
+                url: 'http://localhost:8080/api/deletaGameTaskUser/'+id_task+'/'+id, 
+                type : "DELETE", /
+                dataType : 'json', 
+                data : stringvar, 
                 success : function(result) {
-                    // you can see the result from the console
-                    // tab of the developer tools
 					          alert(result);
                     console.log(result);
                     window.location = "http://localhost/gametasks-front/listaGametask.php?id="+id;

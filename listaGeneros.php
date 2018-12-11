@@ -53,13 +53,11 @@ $.getJSON( "http://localhost:8080/api/listaGeneros", function( data ) {
             var id = $(this).attr("id");
             var stringvar = 'id='+ id ;
             $.ajax({
-                url: 'http://localhost:8080/api/deletaGenero/'+id, // url where to submit the request
-                type : "DELETE", // type of action POST || GET
-                dataType : 'json', // data type
-                data : stringvar, // post data || get data
+                url: 'http://localhost:8080/api/deletaGenero/'+id, 
+                type : "DELETE",
+                dataType : 'json', 
+                data : stringvar, 
                 success : function(result) {
-                    // you can see the result from the console
-                    // tab of the developer tools
 					          alert(result);
                     console.log(result);
                     window.location = "http://localhost/gametasks-front/listaGeneros.php";

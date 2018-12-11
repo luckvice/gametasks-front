@@ -2,7 +2,7 @@
     <!-- Page Content -->
     <div class="container">
       <!-- Page Heading -->
-      <h1 class="my-4">Nova Gametask
+      <h1 class="my-4">Atualizar Gametask
         <small>novo</small>
       </h1>
 	        <div class="row" id="novaGametask">
@@ -41,7 +41,7 @@
 					<input required type="text" min="0" max="100" class="form-control" id="percent_complete" placeholder="Digite a porcentagem estimada de jogo" name="percent_complete">
 					<small id="titulohelp" class="form-text text-muted"></small>
 				  </div>
-				  <a id="salvar" class="btn btn-primary">Cadastrar</a>
+				  <a id="salvar" class="btn btn-primary">Salvar</a>
 				</form>
 				</div>
 			</div>
@@ -52,9 +52,56 @@
 	  <script src="vendor/jquery-validation/jquery.validate.min.js"></script>
     <script type="text/javascript">
 
-    var baseUrl = (window.location).href; //pega url
-		var id = baseUrl.substring(baseUrl.lastIndexOf('=') + 1);
-    $("#id_usuario").val(id);
+    function getParameterByName(name) {  
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"), results = regex.exec(location.search);
+        return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+    var id = getParameterByName('id');
+      
+
+    $.getJSON( "http://localhost:8080/api/listaJogos", function( data ) {
+
+
+    $.each( data, function( key, val ) {
+      $('#id_jogo_task').append('<option value=' + val.id + '>' + val.nome + '</option>');
+    console.log(key, val);
+    });
+
+    });
+
+    $.getJSON( "http://localhost:8080/api/listaPlataformas", function( data ) {
+
+    $.each( data, function( key, val ) {
+      $('#id_plataforma_task').append('<option value=' + val.id + '>' + val.pl_name + '</option>');
+    console.log(key, val);
+    });
+
+		$.getJSON( "http://localhost:8080/api/verGameTask/"+id, function( data ) {
+			console.log(data)//debug
+      $("#id_usuario").val(data[0].id_usuario);
+      $("#id_jogo_task").val(data[0].id_jogo_task);
+      $("#id_plataforma_task").val(data[0].id_plataforma_task);
+      $("#jogando").val(data[0].jogando);
+      $("#finalizado").val(data[0].finalizado);
+      $("#parado").val(data[0].parado);
+      $("#rejogando").val(data[0].rejogando);
+     
+      if($("#jogando").val() == "S"){
+        $('#status').val("0");
+      }else if($("#finalizado").val() == "S"){
+        $('#status').val("3");
+      }else if($("#parado").val() == "S"){
+        $('#status').val("1");
+      }else if($("#rejogando").val() == "S"){
+        $('#status').val("2");
+      }
+
+      $("#current_progress_time").val(data[0].current_progress_time);
+      $("#percent_complete").val(data[0].percent_complete);
+			});
+
+
     $('#status').change(function() {
 
       if($("#status").val() == "0"){
@@ -79,23 +126,9 @@
         $("#finalizado").val("S");
       }
       });
-$.getJSON( "http://localhost:8080/api/listaJogos", function( data ) {
 
 
-    $.each( data, function( key, val ) {
-      $('#id_jogo_task').append('<option value=' + val.id + '>' + val.nome + '</option>');
-    console.log(key, val);
-    });
- 
-  });
 
-  $.getJSON( "http://localhost:8080/api/listaPlataformas", function( data ) {
-
-    $.each( data, function( key, val ) {
-      $('#id_plataforma_task').append('<option value=' + val.id + '>' + val.pl_name + '</option>');
-    console.log(key, val);
-    });
- 
   });
 		$("#GametaskForm").validate({
        rules : {
@@ -115,16 +148,17 @@ $.getJSON( "http://localhost:8080/api/listaJogos", function( data ) {
 
 	   $("#salvar").on('click', function(){
 			if($("#GametaskForm").valid()){  
-        console.log("WHHHHATTT?:"+$("#GametaskForm").serialize());
             // send ajax
             $.ajax({
-                url: 'http://localhost:8080/api/novaGameTask', 
-                type : "POST", 
-                dataType : 'json', 
-                data : $("#GametaskForm").serialize(),
+                url: 'http://localhost:8080/api/atualizaGameTaskUser/'+id, 
+                type : "PUT", 
+                dataType : 'json',
+                data : $("#GametaskForm").serialize(), 
                 success : function(result) {
+					          alert(result);
                     console.log(result);
-                    window.location = "http://localhost/gametasks-front/listaGametask.php?id="+id;
+      
+                    window.location = "http://localhost/gametasks-front/listaGametask.php?id="+$("#id_usuario").val();
                 },
                 error: function(xhr, resp, text) {
                     console.log(xhr, resp, text);
@@ -135,6 +169,7 @@ $.getJSON( "http://localhost:8080/api/listaJogos", function( data ) {
         }
 
       });
+
 
     </script>
   </body>
