@@ -24,7 +24,7 @@
   <?php include 'template/footer.php'; ?>
 	  <script src="vendor/jquery-validation/jquery.validate.min.js"></script>
     <script type="text/javascript">
-
+ 
 		$("#plataformaForm").validate({
        rules : {
         pl_name:{

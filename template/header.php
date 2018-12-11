@@ -45,8 +45,10 @@
                             <li class="nav-link"><a href="listaJogos.php">Lista Jogos</a></li>
                             <li class="nav-link"><a href="listaPlataformas.php">Lista Plataformas</a></li>
                             <li class="nav-link"><a href="listaGeneros.php">Lista Generos</a></li>
+                            <li class="nav-link"><a href="listaGametask.php?id=1">Lista GamesTasks</a></li>
+                
                             <li class="divider"></li>
-                            <li class="nav-link"><a href="#">Trash</a></li>
+                           
                         </ul>
                     </li>
             <li class="nav-item">
