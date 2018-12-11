@@ -1,35 +1,35 @@
 <?php include 'template/header.php'; ?>
-    <!-- Page Content -->
-    <div class="container">
+<!-- Page Content -->
+<div class="container">
 
-      <!-- Page Heading -->
-      <h1 class="my-4">Lista Jogos
+    <!-- Page Heading -->
+    <h1 class="my-4">Lista Jogos
         <small>GetJson</small>
-      </h1>
-      <div class="row">
-      <div class="col-lg-4">
-        <a id="salvar" class="btn btn-primary" href="novoJogo.php">Cadastrar novo</a>
-      </div>
+    </h1>
+    <div class="row">
+        <div class="col-lg-4">
+            <a id="salvar" class="btn btn-primary" href="novoJogo.php">Cadastrar novo</a>
         </div>
-	        <div class="row" id="listGames">
-				<div class="col-lg-4 col-sm-6 portfolio-item">
-				<table class="table">
-				  <thead>
-					<tr>
-					  <th scope="col">#</th>
-					  <th scope="col">Titulo</th>
-					  <th scope="col">Desenvolvedora</th>
-					  <th scope="col">Produtora</th>
-					  <th scope="col">Nota</th>
-					  <th scope="col">Ação</th>
-					</tr>
-				  </thead>
-				  <tbody id="tableGames">
-				  </tbody>
-				</table>
-				</div>
-			</div>
-<!--
+    </div>
+    <div class="row" id="listGames">
+        <div class="col-lg-4 col-sm-6 portfolio-item">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Titulo</th>
+                        <th scope="col">Desenvolvedora</th>
+                        <th scope="col">Produtora</th>
+                        <th scope="col">Nota</th>
+                        <th scope="col">Ação</th>
+                    </tr>
+                </thead>
+                <tbody id="tableGames">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!--
       <div class="row">
         <div class="col-lg-4 col-sm-6 portfolio-item">
           <div class="card h-100">
@@ -100,8 +100,8 @@
       </div>
       <!-- /.row -->
 
-      <!-- Pagination -->
-	  <!--
+    <!-- Pagination -->
+    <!--
       <ul class="pagination justify-content-center">
         <li class="page-item">
           <a class="page-link" href="#" aria-label="Previous">
@@ -126,56 +126,55 @@
         </li>
       </ul>
 -->
-    </div>
-    <!-- /.container -->
+</div>
+<!-- /.container -->
 
 
 
-	 <?php include 'template/footer.php'; ?>
-   <script type="text/javascript">
-carregaPagina();
-setInterval(carregaPagina, 13000);
+<?php include 'template/footer.php'; ?>
+<script type="text/javascript">
+    carregaPagina();
+    setInterval(carregaPagina, 13000);
 
-function carregaPagina(){
+    function carregaPagina() {
 
-//carrega na pagina
-$.getJSON( "http://localhost:8080/api/listaJogos", function( data ) {
-  jQuery('#tableGames').html('');
-  $.each( data, function( key, val ) {
-	$("#tableGames").append("<tr><th scope='row'>"+val.id+"</th><td><a href='verGame.php?id="+val.id+"'> "+val.nome+" </a></td> <td>"+val.desenvolvedora+"</td> <td>"+val.produtora+"</td><td>"+val.meta_critic_rank+"</td><td><button type='button' class='btn btn-warning btn-sm editar' id='"+val.id+"'>Editar</button></td><td> <button type='button' class='btn btn-danger btn-sm deletar' id='"+val.id+"'>Remover</button> </td>");
-	console.log(key, val);
-  });
+        //carrega na pagina
+        $.getJSON("http://localhost:8080/api/listaJogos", function(data) {
+            jQuery('#tableGames').html('');
+            $.each(data, function(key, val) {
+                $("#tableGames").append("<tr><th scope='row'>" + val.id + "</th><td><a href='verGame.php?id=" + val.id + "'> " + val.nome + " </a></td> <td>" + val.desenvolvedora + "</td> <td>" + val.produtora + "</td><td>" + val.meta_critic_rank + "</td><td><button type='button' class='btn btn-warning btn-sm editar' id='" + val.id + "'>Editar</button></td><td> <button type='button' class='btn btn-danger btn-sm deletar' id='" + val.id + "'>Remover</button> </td>");
+                console.log(key, val);
+            });
 
-   $(".editar").on('click', function(){
-    var id = $(this).attr('id');
-    window.location = "http://localhost/gametasks-front/verGame.php?id="+id;
+            $(".editar").on('click', function() {
+                var id = $(this).attr('id');
+                window.location = "http://localhost/gametasks-front/verGame.php?id=" + id;
 
-   });
-  $(".deletar").on('click', function(){
-            // send ajax
-            var id = $(this).attr("id");
-            var stringvar = 'id='+ id ;
-            $.ajax({
-                url: 'http://localhost:8080/api/deletaJogo/'+id, 
-                type : "DELETE", 
-                dataType : 'json', 
-                data : stringvar, 
-                success : function(result) {
-					          alert(result);
-                    console.log(result);
-                    window.location = "http://localhost/gametasks-front/listaJogos.php";
-                },
-                error: function(xhr, resp, text) {
-                  alert(JSON.stringify(xhr));
-                  console.log(xhr, resp, text);
-                }
-          })
-    });
-});
+            });
+            $(".deletar").on('click', function() {
+                // send ajax
+                var id = $(this).attr("id");
+                var stringvar = 'id=' + id;
+                $.ajax({
+                    url: 'http://localhost:8080/api/deletaJogo/' + id,
+                    type: "DELETE",
+                    dataType: 'json',
+                    data: stringvar,
+                    success: function(result) {
+                        alert(result);
+                        console.log(result);
+                        window.location = "http://localhost/gametasks-front/listaJogos.php";
+                    },
+                    error: function(xhr, resp, text) {
+                        alert(JSON.stringify(xhr));
+                        console.log(xhr, resp, text);
+                    }
+                })
+            });
+        });
 
-}
-
-    </script>
-  </body>
+    }
+</script>
+</body>
 
 </html>
